@@ -147,6 +147,42 @@ class Tree {
         return this.deleteItem(value, currentNode.left, currentNode)
       }
     }
+
+    find(value, currentNode = this.root) {
+      if (value===currentNode.data) {
+        return currentNode
+      } else if (value > currentNode.data) {
+        return this.find(value, currentNode.right)
+      } else if (value < currentNode.data) {
+        return this.find(value, currentNode.left)
+      } else {
+        alert('value not found !')
+      }
+    }
+
+    levelOrder(callback=null,currentNode = this.root, levelOrderArray = [],queue = [currentNode]) {
+      if (queue.length===0) {
+        if (callback===null) {
+          return levelOrderArray
+        } else {
+          return levelOrderArray.forEach(callback)
+        }
+      } else {
+        levelOrderArray.push(queue[0])
+        if (currentNode.left!==null) {
+          queue.push(currentNode.left)
+        } 
+        if (currentNode.right!==null) {
+          queue.push(currentNode.right)
+        }
+        queue.splice(0,1)
+        if (callback===null) {
+          return this.levelOrder(null,queue[0], levelOrderArray, queue)
+        } else {
+          this.levelOrder(callback, queue[0], levelOrderArray, queue)
+        }
+      }
+    }
 }
 
 const prettyPrint = (node, prefix = "", isLeft = true) => {
@@ -166,33 +202,4 @@ let newTree = new Tree()
 // console.log(newTree.root)
 newTree.buildTree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324])
 console.log(newTree)
-newTree.insert(200)
-newTree.insert(250)
-newTree.insert(190)
-newTree.insert(260)
-newTree.insert(280)
-newTree.insert(240)
-newTree.insert(235)
-newTree.deleteItem(8)
-newTree.deleteItem(67)
-newTree.deleteItem(9)
-newTree.deleteItem(190)
 prettyPrint(newTree.root)
-newTree.deleteItem(23)
-prettyPrint(newTree.root)
-newTree.deleteItem(6345)
-newTree.deleteItem(240)
-newTree.deleteItem(260)
-newTree.deleteItem(250)
-newTree.deleteItem(200)
-newTree.deleteItem(1)
-newTree.deleteItem(4)
-newTree.deleteItem(5)
-newTree.deleteItem(324)
-newTree.deleteItem(235)
-newTree.deleteItem(7)
-newTree.deleteItem(280)
-newTree.deleteItem(3)
-
-
-
