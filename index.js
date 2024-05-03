@@ -176,10 +176,90 @@ class Tree {
           queue.push(currentNode.right)
         }
         queue.splice(0,1)
+        return this.levelOrder(callback,queue[0], levelOrderArray, queue)
+      }
+    }
+
+    preOrder(callback = null, currentNode = this.root, preOrderArray =[]) {
+      if (currentNode===null) {
+        return null
+      } else {
+        preOrderArray.push(currentNode)
+        if (callback!==null) {
+          callback(currentNode)
+        }
+        this.preOrder(callback,currentNode.left, preOrderArray )
+        this.preOrder(callback,currentNode.right, preOrderArray )
         if (callback===null) {
-          return this.levelOrder(null,queue[0], levelOrderArray, queue)
+          return preOrderArray
+        }
+      }
+    } 
+
+    inOrder(callback = null, currentNode = this.root, inOrderArray =[]) {
+      if (currentNode===null) {
+        return null
+      } else {
+        this.inOrder(callback,currentNode.left, inOrderArray )
+        inOrderArray.push(currentNode)
+        if (callback!==null) {
+          callback(currentNode)
+        }
+        this.inOrder(callback,currentNode.right, inOrderArray )
+        if (callback===null) {
+          return inOrderArray
+        }
+      }
+    }
+
+    postOrder(callback = null, currentNode = this.root, postOrderArray =[]) {
+      if (currentNode===null) {
+        return null
+      } else {
+        this.postOrder(callback,currentNode.left, postOrderArray )
+        this.postOrder(callback,currentNode.right, postOrderArray )
+        postOrderArray.push(currentNode)
+        if (callback!==null) {
+          callback(currentNode)
+        }
+        if (callback===null) {
+          return postOrderArray
+        }
+      }
+    }
+
+    height(node, currentNode = this.find(node),height = 1) {
+      if (currentNode.left===null && currentNode.right ===null) {
+        return height
+      } else {
+        height++
+        let leftHeight = 0
+        let rightHeight = 0
+
+        if (currentNode.left!==null) {
+          leftHeight = this.height(node, currentNode.left, height)
+        }
+        if (currentNode.right!==null) {
+          rightHeight = this.height(node, currentNode.right, height)
+        }
+        if (leftHeight> rightHeight) {
+          return leftHeight
         } else {
-          this.levelOrder(callback, queue[0], levelOrderArray, queue)
+          return rightHeight
+        }
+      }
+    }
+
+    depth(node, currentNode = this.root, depth=0) {
+      if (node === currentNode.data) {
+        return depth
+      } else {
+        if (node>currentNode.data) {
+          depth++
+          return this.depth(node, currentNode.right, depth)
+        } else {
+          depth++
+          return this.depth(node, currentNode.left, depth)
         }
       }
     }
@@ -202,4 +282,16 @@ let newTree = new Tree()
 // console.log(newTree.root)
 newTree.buildTree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324])
 console.log(newTree)
+newTree.insert(205)
+newTree.insert(210)
+newTree.insert(220)
+
+
+
 prettyPrint(newTree.root)
+console.log(newTree.depth(220))
+
+
+
+
+
