@@ -298,29 +298,29 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
 };
 
 let newTree = new Tree()
+
+function randomArray (limit) {
+  let randomArray = []
+  let counter = 0
+  while (counter<limit) {
+    let num = Math.floor(Math.random()*100)
+    randomArray.push(num)
+    counter++
+  }
+  return randomArray
+}
+let rando = randomArray(100)
+
 // console.log(newTree.root)
-newTree.buildTree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324])
+newTree.buildTree(rando)
 console.log(newTree)
-
-prettyPrint(newTree.root)
-newTree.insert(6000)
-newTree.insert(3000)
-prettyPrint(newTree.root)
-
-console.log(newTree.isBalanced)
-newTree.rebalance
-newTree.insert(20)
-newTree.insert(19)
-newTree.insert(18)
-newTree.insert(15)
-newTree.rebalance
+console.log(newTree.levelOrder())
+console.log(newTree.inOrder())
+console.log(newTree.preOrder())
+console.log(newTree.postOrder())
 
 prettyPrint(newTree.root)
 console.log(newTree.isBalanced)
-
-
-
-
 
 
 
